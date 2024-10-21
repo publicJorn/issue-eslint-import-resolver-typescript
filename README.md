@@ -1,50 +1,10 @@
-# React + TypeScript + Vite
+This repo gives a reproduction of the issue described here: https://github.com/import-js/eslint-import-resolver-typescript/issues/94
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+`tsconfig.json` has a `references` entry, which includes two other tsconfigs.
 
-Currently, two official plugins are available:
+A `path` alias is set in `tsconfig.app.json` and it works: editor go-to-source, dev server and build are all successful.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+However, eslint-import-resovler-typescript does not seem to evaluate it.  
+![eslint error](./docs/eslint-error.png)
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Note that when specificly including all `tsconfig.*.json` files as `projects` it does work. But this is not ideal when creating a shared config.
