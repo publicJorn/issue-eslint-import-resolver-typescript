@@ -7,4 +7,5 @@ A `path` alias is set in `tsconfig.app.json` and it works: editor go-to-source, 
 However, eslint-import-resovler-typescript does not seem to evaluate it.  
 ![eslint error](./docs/eslint-error.png)
 
-Note that when specificly including all `tsconfig.*.json` files as `projects` it does work. But this is not ideal when creating a shared config.
+Note that when specificly including all `tsconfig.*.json` files as `projects` it does work. (Uncomment line 14 in `eslint.config.js` to see the issue disappear).  
+But this is not ideal when creating a shared config.
